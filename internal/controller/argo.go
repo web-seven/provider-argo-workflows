@@ -20,16 +20,20 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/controller"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/provider-template/internal/controller/config"
-	"github.com/crossplane/provider-template/internal/controller/mytype"
+	"github.com/web-seven/provider-argo-workflows/internal/controller/config"
+	"github.com/web-seven/provider-argo-workflows/internal/controller/eventsource"
+	"github.com/web-seven/provider-argo-workflows/internal/controller/sensor"
+	"github.com/web-seven/provider-argo-workflows/internal/controller/workflow"
 )
 
-// Setup creates all Template controllers with the supplied logger and adds them to
+// Setup creates all Argo controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		config.Setup,
-		mytype.Setup,
+		sensor.Setup,
+		eventsource.Setup,
+		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
